@@ -13,7 +13,7 @@ double tax = 0.0;
 double taxPercent = 0.2;
 int amount = 0;
 bool showSpinner = false;
-String url = 'https://us-central1-demostripe-b9557.cloudfunctions.net/StripePI';
+String url = 'https://us-central1-wlive-15adc.cloudfunctions.net/StripePI';
 
 void main() {
   runApp(MyApp());
@@ -30,8 +30,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     StripePayment.setOptions(
       StripeOptions(
-        publishableKey:
-            'pk_test_51IJbpbL7b1ztTOvPVxU0wpWaMWhYlJCbBZ0ywPs2oimywgXv7E7pM6TkkfQoH4DJFTirRjAnjVr29bKcUWGKlzgX00CP9sZlE5',
+        publishableKey: 'pk_test_51IJbpbL7b1ztTOvPVxU0wpWaMWhYlJCbBZ0ywPs2oimywgXv7E7pM6TkkfQoH4DJFTirRjAnjVr29bKcUWGKlzgX00CP9sZlE5',
         androidPayMode: 'test',
         merchantId: 'merchant.tech.wblue.wlive',
       ),
@@ -44,7 +43,7 @@ class _MyAppState extends State<MyApp> {
           appBar: AppBar(
             title: Text('Apple Pay'),
           ),
-          body: FlatButton(
+          body: TextButton(
             onPressed: () {
               checkIfNativePayReady();
             },
@@ -57,9 +56,9 @@ class _MyAppState extends State<MyApp> {
     StripePayment.setStripeAccount(null);
     tax = ((totalCost * taxPercent) * 100).ceil() / 100;
     amount = ((totalCost + tip + tax) * 100).toInt();
-    print(
-        'amount in pence/cent which will be charged = $amount'); //step 1: add card
+    print('amount in pence/cent which will be charged = $amount'); //step 1: add card
     PaymentMethod paymentMethod = PaymentMethod();
+
     paymentMethod = await StripePayment.paymentRequestWithCardForm(
       CardFormPaymentRequest(),
     ).then((PaymentMethod paymentMethod) {
@@ -89,6 +88,7 @@ class _MyAppState extends State<MyApp> {
         : createPaymentMethod();
   }
 
+
   Future<void> createPaymentMethodNative() async {
     print('started NATIVE payment...');
     StripePayment.setStripeAccount(null);
@@ -114,21 +114,33 @@ class _MyAppState extends State<MyApp> {
       amount: (totalCost + tip + tax).toString(),
     ));
     amount = ((totalCost + tip + tax) * 100).toInt();
+    print('Stripe token: ${items[0].json}');
+    print('Now i decode$url');
+
     print(
         'amount in pence/cent which will be charged = $amount'); //step 1: add card
     PaymentMethod paymentMethod = PaymentMethod();
+    print('paymentMethode:${paymentMethod.id}');
+
     Token token = await StripePayment.paymentRequestWithNativePay(
       androidPayOptions: AndroidPayPaymentRequest(
         totalPrice: (totalCost + tax + tip).toStringAsFixed(2),
-        currencyCode: 'GBP',
+        currencyCode: 'EUR',
+
       ),
       applePayOptions: ApplePayPaymentOptions(
-        countryCode: 'GB',
-        currencyCode: 'GBP',
-        items: items,
+        countryCode: 'DE',
+        currencyCode: 'EUR',
+        items: [
+          ApplePayItem(
+            label: 'Test',
+            amount: '13',
+          )
+        ],
       ),
     );
-    print('Stripe token: $token');
+    print('nowI$token');
+
     paymentMethod = await StripePayment.createPaymentMethod(
       PaymentMethodRequest(
         card: CreditCard(
@@ -151,9 +163,9 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       showSpinner = true;
     });
+
     final http.Response response = await http
         .post('$url?amount=$amount&currency=GBP&paym=${paymentMethod.id}');
-    print('Now i decode');
     if (response.body != null && response.body != 'error') {
       final paymentIntentX = jsonDecode(response.body);
       final status = paymentIntentX['paymentIntent']['status'];

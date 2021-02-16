@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "475414351412",
+    "firebase_url": "https://wlive-67385.firebaseio.com",
+    "project_id": "wlive-67385",
+    "storage_bucket": "wlive-67385.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475414351412:android:e574746bc9f585a93c8461",
+        "android_client_info": {
+          "package_name": "com.wblue.wlive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "475414351412-islbp4pcc6kt14o1stihekisarjaaco8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH-F4uC7FDd4lxttLuoDqNOF5Vk5P9V6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "475414351412-islbp4pcc6kt14o1stihekisarjaaco8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "475414351412-078nnsu3gt77colja0p8gkvb38qnbnkr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wblue.wlive"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
